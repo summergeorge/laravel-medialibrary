@@ -18,8 +18,10 @@ class LocalUrlGenerator extends BaseUrlGenerator
     {
         $url = $this->getBaseMediaDirectoryUrl().'/'.$this->getPathRelativeToRoot();
         $url = $this->makeCompatibleForNonUnixHosts($url);
+      
 
         $url = $this->rawUrlEncodeFilename($url);
+
 
         return $url;
     }

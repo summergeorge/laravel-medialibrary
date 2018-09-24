@@ -42,6 +42,9 @@ class FileAdder
     protected $pathToFile;
 
     /** @var string */
+    protected $customPath;
+
+    /** @var string */
     protected $fileName;
 
     /** @var string */
@@ -295,6 +298,7 @@ class FileAdder
         $media->mime_type = File::getMimetype($this->pathToFile);
         $media->size = filesize($this->pathToFile);
         $media->custom_properties = $this->customProperties;
+        $media->custom_path = $this->customPath;
         $media->manipulations = $this->manipulations;
 
         $media->fill($this->properties);
@@ -384,5 +388,10 @@ class FileAdder
         if (! $fileAdder->preserveOriginal) {
             unlink($fileAdder->pathToFile);
         }
+    }
+
+    public function setCustomPath($customPath){
+        $this->customPath = str_finish($customPath,'/');
+        return $this;
     }
 }

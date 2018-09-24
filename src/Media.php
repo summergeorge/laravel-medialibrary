@@ -27,6 +27,7 @@ class Media extends Model implements Responsable
     protected $casts = [
         'manipulations' => 'array',
         'custom_properties' => 'array',
+        'custom_path' => 'string',
     ];
 
     /**
