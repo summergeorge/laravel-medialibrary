@@ -381,6 +381,7 @@ class FileAdder
      */
     protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
     {
+//        dd($model);
         $model->media()->save($media);
 
         $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);

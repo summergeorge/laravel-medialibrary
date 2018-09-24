@@ -16,9 +16,10 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     public function getUrl(): string
     {
-        $url = $this->getBaseMediaDirectoryUrl().'/'.$this->getPathRelativeToRoot();
+        $url = $this->getBaseMediaDirectoryUrl() . '/' . $this-> getUrlPathRelativeToRoot();
+//        dd($this->getPathRelativeToRoot());
         $url = $this->makeCompatibleForNonUnixHosts($url);
-      
+
 
         $url = $this->rawUrlEncodeFilename($url);
 
@@ -28,7 +29,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
 
     /**
      * @param \DateTimeInterface $expiration
-     * @param array              $options
+     * @param array $options
      *
      * @return string
      *
@@ -44,17 +45,17 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     public function getPath(): string
     {
-        return $this->getStoragePath().'/'.$this->getPathRelativeToRoot();
+        return $this->getStoragePath() . '/' . $this->getPathRelativeToRoot();
     }
 
     protected function getBaseMediaDirectoryUrl(): string
     {
         if ($diskUrl = $this->config->get("filesystems.disks.{$this->media->disk}.url")) {
-            return $diskUrl;
-//            return str_replace(url('/'), '', $diskUrl);
+//            return $diskUrl;
+            return str_replace(url('/'), '', $diskUrl);
         }
 
-        if (! starts_with($this->getStoragePath(), public_path())) {
+        if (!starts_with($this->getStoragePath(), public_path())) {
             throw UrlCannotBeDetermined::mediaNotPubliclyAvailable($this->getStoragePath(), public_path());
         }
 
@@ -72,7 +73,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
     /*
      * Get the path where the whole medialibrary is stored.
      */
-    protected function getStoragePath() : string
+    protected function getStoragePath(): string
     {
         $diskRootPath = $this->config->get("filesystems.disks.{$this->media->disk}.root");
 
@@ -86,5 +87,41 @@ class LocalUrlGenerator extends BaseUrlGenerator
         }
 
         return $url;
+    }
+
+    /*
+    * 读取磁盘数据时使用
+    */
+//    public function getPathRelativeToRoot(): string
+//    {
+//        if (is_null($this->conversion)) {
+////            return $this->media->getKey() . '/' . $this->media->file_name;
+//            return $this->pathGenerator->getPath($this->media).($this->media->file_name);
+//        }
+//
+//        return $this->pathGenerator->getPathForConversions($this->media)
+//            .  $this->pathGenerator->conversionsPath
+//            . $this->conversion->getName()
+//            . '.'
+//            . $this->conversion->getResultExtension($this->media->extension);
+//    }
+
+    /*
+* 生成 url 时使用
+*/
+    public function getUrlPathRelativeToRoot(): string
+    {
+        if (is_null($this->conversion)) {
+            return $this->media->getKey() . '/' . $this->media->file_name;
+//            return $this->pathGenerator->getPath($this->media).($this->media->file_name);
+        }
+
+//        return $this->pathGenerator->getPathForConversions($this->media)
+        return $this->media->getKey()
+                . '/'
+            .  $this->pathGenerator->conversionsPath
+            . $this->conversion->getName()
+            . '.'
+            . $this->conversion->getResultExtension($this->media->extension);
     }
 }

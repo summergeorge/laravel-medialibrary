@@ -234,8 +234,13 @@ class Media extends Model implements Responsable
      *
      * @return \Illuminate\Http\Response
      */
-    public function toResponse($request)
+    public function toResponseDownload($request)
     {
         return response()->download($this->getPath(), $this->file_name);
+    }
+
+    public function toResponse($request){
+        dd($this->getPath());
+        return response()->file($this->getPath('small'));
     }
 }
