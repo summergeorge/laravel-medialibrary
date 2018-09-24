@@ -240,7 +240,6 @@ class Media extends Model implements Responsable
     }
 
     public function toResponse($request){
-        dd($this->getPath());
         return response()->file($this->getPath('small'));
     }
 }
