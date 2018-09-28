@@ -12,6 +12,7 @@ class Svg extends BaseGenerator
 {
     public function convert(string $file, Conversion $conversion = null): string
     {
+        return $file;
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
         $image = new Imagick();
