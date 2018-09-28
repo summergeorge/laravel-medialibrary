@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\ImageGenerators\FileTypes;
 
+use Imagick;
+use ImagickPixel;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
@@ -10,21 +12,23 @@ class Psd extends BaseGenerator
 {
     public function convert(string $file, Conversion $conversion = null): string
     {
-        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
+        return $file;
 
-        $image = new Imagick();
-        $image->readImage($file);
-        $image->setImageIndex(0);
-        $image->setIteratorIndex(0);
-        $image->stripImage(); //去除图片信息
-        $image->setImageCompressionQuality(80); //图片质量
-        $image->writeImage($imageFile);
-//        $image->setBackgroundColor(new ImagickPixel('none'));
+//        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
+//
+//        $image = new Imagick();
+//        $image->readImage($file);
+////        $image->setImageIndex(0);
+////        $image->setIteratorIndex(0);
+//        $image->stripImage(); //去除图片信息
+////        $image->setImageCompressionQuality(80); //图片质量
+////        $image->setBackgroundColor(new ImagickPixel('none'));
 //        $image->setImageFormat('jpg');
 //
-//        file_put_contents($imageFile, $image);
-
-        return $imageFile;
+//        $image->writeImages($imageFile);
+//      dd($imageFile);
+//
+//        return $imageFile;
     }
 
     public function requirementsAreInstalled(): bool
