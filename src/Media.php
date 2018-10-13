@@ -228,31 +228,31 @@ class Media extends Model implements Responsable
         })->toArray();
     }
 
-    /**
-     * Create an HTTP response that represents the object.
-     *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function toResponseDownload($request)
-    {
-        $fullPath =$this->getPath();
-        if (file_exists($fullPath)) {
-//            return response()
-//                ->download($fullPath, $this->file_name,[
-//                    'Content-Type' => $this->mime_type,
-//                ]);
-            return response()->download($fullPath,$this->file_name);
-        }
-        return response('', 404);
-    }
+//    /**
+//     * Create an HTTP response that represents the object.
+//     *
+//     * @param  \Illuminate\Http\Request $request
+//     *
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function toResponseDownload($request)
+//    {
+//        $fullPath =$this->getPath();
+//        if (file_exists($fullPath)) {
+////            return response()
+////                ->download($fullPath, $this->file_name,[
+////                    'Content-Type' => $this->mime_type,
+////                ]);
+//            return response()->download($fullPath,$this->file_name);
+//        }
+//        return response('', 404);
+//    }
 
     public function toResponse($request){
-        return response()->file($this->getPath());
+        return response()->download($this->getPath(), $this->file_name);
     }
 
-    public function toResponseWithConversionName($requeset,$conversionName){
-        return response()->file($this->getPath($conversionName));
-    }
+//    public function toResponseWithConversionName($requeset,$conversionName){
+//        return response()->file($this->getPath($conversionName));
+//    }
 }
