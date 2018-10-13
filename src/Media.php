@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
+
 class Media extends Model implements Responsable
 {
     use SortableTrait;
@@ -236,10 +237,14 @@ class Media extends Model implements Responsable
      */
     public function toResponseDownload($request)
     {
-        return response()->download($this->getPath(), $this->file_name);
+        $fullPath =$this->getPath();
+        if (File::isFile($fullPath)) {
+            return response()->download($fullPath,$this->file_name);
+        }
+        return response('', 404);
     }
 
-    public function toResponse($request){
-        return response()->file($this->getPath('small'));
+    public function toResponse($request,$conversion){
+        return response()->file($this->getPath($conversion));
     }
 }
