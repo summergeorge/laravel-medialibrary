@@ -238,13 +238,21 @@ class Media extends Model implements Responsable
     public function toResponseDownload($request)
     {
         $fullPath =$this->getPath();
-        if (File::isFile($fullPath)) {
+        if (file_exists($fullPath)) {
+//            return response()
+//                ->download($fullPath, $this->file_name,[
+//                    'Content-Type' => $this->mime_type,
+//                ]);
             return response()->download($fullPath,$this->file_name);
         }
         return response('', 404);
     }
 
-    public function toResponse($request,$conversion){
-        return response()->file($this->getPath($conversion));
+    public function toResponse($request){
+        return response()->file($this->getPath());
+    }
+
+    public function toResponseWithConversionName($requeset,$conversionName){
+        return response()->file($this->getPath($conversionName));
     }
 }
